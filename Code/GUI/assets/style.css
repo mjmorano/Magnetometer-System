@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    font-family: "Roboto", Arial, sans-serif !important;
+    background-color: #C6AC99 !important;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+.button {
+    background-color: #A8B8CD !important;
+    color: #1F3342 !important;
+    font-family: "Roboto" !important;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    border: 1px solid #1F3342 !important;
+    border-radius: 2px !important;
+}
+
+.button-success {
+    background-color: #4CAF50 !important;
+    color: #1F3342 !important;
+    font-family: "Roboto" !important;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    border: 1px solid #1F3342 !important;
+    border-radius: 2px !important;
+}
+
+.button-fail {
+    background-color: #F44336 !important;
+    color: #1F3342 !important;
+    font-family: "Roboto" !important;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    border: 1px solid #1F3342 !important;
+    border-radius: 2px !important;
+}
+
+.button:hover, .button-fail:hover, .button-success:hover {
+    opacity: 0.9 !important;
+}
+
+.checkboxes input[type="checkbox"] {
+    transform: scale(2);
+    margin-right: 10px !important;
+    /* vertical-align: middle !important; */
+    font-size: 18px !important;
+}
