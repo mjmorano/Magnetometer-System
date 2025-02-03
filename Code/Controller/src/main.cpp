@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <SPI.h>
 #include "SoftwareSerial.h"
 
@@ -44,8 +45,8 @@ void writeValues(){
   
 void setChannel(uint8_t chanNum) {
 
-  SPI.beginTransaction( SPISettings(1000000, MSBFIRST, SPI_MODE0) );
-  SPI.transfer( chan[chanNum] );
+  SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
+  SPI.transfer(chan[chanNum]);
   SPI.endTransaction();
   digitalWrite(SS, HIGH);
   digitalWrite(SS, LOW);
@@ -146,10 +147,14 @@ void loop() {
 
     inCmd = Serial.read();
 
-    if(inCmd == 'R'){
+    if(inCmd == 'R') {
 
       readSensors();
       writeValues();
+
+    } else if(inCmd == 'I') {
+
+      Serial.println("Magnetometer Controller");
 
     }
 
