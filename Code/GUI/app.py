@@ -191,7 +191,11 @@ app.layout = html.Div(
                             style={"margin-right": "10px", "width": "150px"},
                         ),
                     ],
-                    style={"border-right": "1px solid black"},
+                    style={
+                        "border-right": "1px solid black",
+                        "align-items": "center",
+                        "display": "flex",
+                    },
                 ),
                 html.Div(
                     [
@@ -220,7 +224,8 @@ app.layout = html.Div(
                             className="hp-button",
                             style={"margin-right": "10px"},
                         ),
-                    ]
+                    ],
+                    style={"align-items": "center", "display": "flex"},
                 ),
             ],
             style={
@@ -636,7 +641,11 @@ def connect_arduino(n_clicks, n_intervals, port, current_class):
 
     print(triggered_id)
 
-    if triggered_id == "connect-button" and port != None:
+    if (
+        triggered_id == "connect-button"
+        and port != None
+        and event_connected.is_set() != 1
+    ):
 
         try:
             ser.port = port
@@ -648,6 +657,12 @@ def connect_arduino(n_clicks, n_intervals, port, current_class):
             print("connecting")
 
         return "hp-button-loading", "Connecting", False, 0
+
+    elif triggered_id == "connect-button" and event_connected.is_set():
+        ser.close()
+        event_connected.clear()
+
+        return "hp-button", "Connect", True, 0
 
     if triggered_id == "button-reset":
         if ser.is_open:

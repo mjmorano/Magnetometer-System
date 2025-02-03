@@ -17,7 +17,7 @@ body {
     border-radius: 5px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s ease-in-out;
     box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.5),
                 inset 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -37,13 +37,17 @@ body {
     font-family: "Share Tech Mono"; 
     font-size: 16px;
     padding: 5px 10px;
-    border: 2px solid #b0b0b0;
+    border: 2px solid #dda201;
     border-radius: 5px;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
-    box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.5),
+    box-shadow: inset -2px -2px 5px #dda201,
                 inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.hp-button-loading:hover {
+    opacity: 0.9;
 }
 
 .hp-button-success {
@@ -52,28 +56,36 @@ body {
     font-family: "Share Tech Mono"; 
     font-size: 16px;
     padding: 5px 10px;
-    border: 2px solid #b0b0b0;
+    border: 2px solid #01bb8d;
     border-radius: 5px;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
-    box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.5),
+    box-shadow: inset -2px -2px 5px #01bb8d,
                 inset 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.hp-button-success:hover {
+    opacity: 0.9;
+}
+
 .hp-button-fail {
-    background: #E04F4F; 
+    background: #ff5f5f; 
     color: #333333;
     font-family: "Share Tech Mono"; 
     font-size: 16px;
     padding: 5px 10px;
-    border: 2px solid #b0b0b0;
+    border: 2px solid #d35252;
     border-radius: 5px;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
-    box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.5),
+    box-shadow: inset -2px -2px 5px #d35252,
                 inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.hp-button-fail {
+    opacity: 0.9;
 }
 
 .checkboxes input[type="checkbox"] {
