@@ -1,4 +1,4 @@
-23429712653716379
+23427989145092725
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -6390,6 +6390,20 @@ capacitor tantalum
 0
 2
 2
+Components
+0031.7701.22
+
+
+0
+2
+2
+Components
+TE_5569263-1
+
+
+0
+102
+102
 Connector
 Banana_Cliff_FCR7350B_S16N-PC_Horizontal
 Cliff single 4mm shrouded banana panel socket, through-hole, horizontal, black, https://www.cliffuk.co.uk/products/testleads/sockets/S16NPC.pdf
@@ -92903,27 +92917,6 @@ Varistor VF
 0
 2
 2
-components
-0031.7701.22
-
-
-0
-2
-2
-components
-CUI_PJ-002BH
-
-
-0
-3
-3
-components
-TE_5569263-1
-
-
-0
-102
-102
 digikey-footprints
 3-SIP_Module_TM1000Q
 
