@@ -2,7 +2,7 @@ import dash
 from dash import dcc, html, ctx
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
-from numpy import linspace
+from numpy import linspace, nanmin, nanmax
 from datetime import datetime
 from serial import Serial
 from collections import deque
@@ -20,7 +20,7 @@ connected = False
 log_path = ""
 
 
-def write_data(base_path, data):
+def write_data(base_path):
 
     now = datetime.now()
     year = now.strftime("%Y")
@@ -50,15 +50,33 @@ def write_data(base_path, data):
         if not file_exists:
             # Write a header if the file is newly created
             file.write(
-                "# Header: Log for {}/{}/{}\n".format(
-                    now.strftime("%Y"), now.strftime("%m"), now.strftime("%d")
+                "# Magnetic field log file for {}/{}/{}, created at {}:{}:{}. Field values are in uT.\n".format(
+                    now.strftime("%Y"),
+                    now.strftime("%m"),
+                    now.strftime("%d"),
+                    now.strftime("%H"),
+                    now.strftime("M"),
+                    now.strftime("S"),
                 )
             )
+        file.write(
+            "{}:{}:{}:{}\t".format(
+                timestamps[-1].strftime("%H"),
+                timestamps[-1].strftime("%M"),
+                timestamps[-1].strftime("%S"),
+                timestamps[-1].strftime("%f"),
+            )
+        )
+        for i in range(12):
+            if i != 11:
+                file.write("{:.6f}\t".format(readings[i][-1]))
+            else:
+                file.write("{:.6f}\n".format(readings[i][-1]))
 
     return day_file_path
 
 
-def server_tick(event_a, event_b):
+def server_tick(event_a):
     """This function is used to generate the 1s interval to sample the instruments. Doing it
         it in the background of the server prevents possible collisions if there is more than one
         client viewing the dashboard. It also allows the instruments to still be read and logged
@@ -73,12 +91,11 @@ def server_tick(event_a, event_b):
         sleep(1)  # Update every 1 second
         timestamps.append(datetime.now())
         event_a.set()
-        event_b.set()
         print("tick", datetime.now().strftime("%H:%M:%S:%f"))
 
 
-def read_sensors(event_read, event_connected):
-
+def read_sensors(event_read, event_connected, event_log):
+    global log_path
     while True:
         event_read.wait()
 
@@ -91,34 +108,20 @@ def read_sensors(event_read, event_connected):
                     readings[i].append(float("nan"))
                 else:
                     readings[i].append(float(values[i]))
+
+            if event_log.is_set():
+                write_data(log_path)
+
         event_read.clear()
-
-
-def write_file(event_start, event_read, event_log):
-    while True:
-        event_start.wait()
-
-        if event_log.is_set():
-
-            while event_read.is_set():
-                pass
-
-            write_data(log_path, readings)
-
-        event_start.clear()
 
 
 event_read = Event()
 event_connected = Event()
-event_write = Event()
 event_log = Event()
 
 thread0 = Thread(
     target=server_tick,
-    args=(
-        event_read,
-        event_write,
-    ),
+    args=(event_read,),
     daemon=True,
 )
 thread0.start()
@@ -128,21 +131,11 @@ thread1 = Thread(
     args=(
         event_read,
         event_connected,
-    ),
-    daemon=True,
-)
-thread1.start()
-
-thread2 = Thread(
-    target=write_file,
-    args=(
-        event_write,
-        event_read,
         event_log,
     ),
     daemon=True,
 )
-thread2.start()
+thread1.start()
 
 # Initialize the app
 app = dash.Dash(
@@ -549,8 +542,10 @@ def update_graphs(
         for sensor in sorted_series:
             num_ticks = 10
             ticks = linspace(
-                min(readings[int(sensor) - 1], default=0),
-                max(readings[int(sensor) - 1], default=0),
+                # min(readings[int(sensor) - 1], default=0),
+                # max(readings[int(sensor) - 1], default=0),
+                nanmin(readings[int(sensor) - 1]),
+                nanmax(readings[int(sensor) - 1]),
                 num_ticks,
             )
             tick_labels = [f"{tick:.6g}" for tick in ticks]
@@ -639,8 +634,6 @@ def connect_arduino(n_clicks, n_intervals, port, current_class):
 
     triggered_id = ctx.triggered_id
 
-    print(triggered_id)
-
     if (
         triggered_id == "connect-button"
         and port != None
@@ -711,4 +704,4 @@ def start_log(n, user_path):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False, host="0.0.0.0")
