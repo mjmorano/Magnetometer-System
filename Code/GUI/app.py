@@ -370,7 +370,7 @@ app.layout = html.Div(
                             [
                                 dcc.Slider(
                                     id="graph-width-slider",
-                                    min=25,
+                                    min=10,
                                     max=100,
                                     step=1,
                                     value=25,  # Default graph size
@@ -396,7 +396,7 @@ app.layout = html.Div(
                             [
                                 dcc.Slider(
                                     id="graph-height-slider",
-                                    min=25,
+                                    min=10,
                                     max=100,
                                     step=1,
                                     value=25,  # Default graph size
