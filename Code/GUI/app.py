@@ -13,7 +13,6 @@ from sys import platform
 from os import makedirs, path
 
 ser = Serial(baudrate=115200, timeout=1)
-# sleep(1.5)
 readings = [deque(maxlen=25) for _ in range(12)]
 timestamps = deque(maxlen=25)
 connected = False
@@ -27,36 +26,37 @@ def write_data(base_path):
     month = now.strftime("%B")
     week = f"Week-{now.strftime('%U')}"
     day = f"Day-{now.strftime('%d')}.txt"
-    # Construct the full path for the month folder
+
+    # Make month path
     month_folder_path = path.join(base_path, year, month)
 
-    # Create the month folder if it does not exist
+    # Check if month folder exists
     if not path.exists(month_folder_path):
         makedirs(month_folder_path)
 
-    # Construct the full path for the week folder
+    # Make week path
     week_folder_path = path.join(month_folder_path, week)
 
-    # Create the week folder if it does not exist
+    # Check if week folder exists
     if not path.exists(week_folder_path):
         makedirs(week_folder_path)
 
-    # Construct the full path for the day file
+    # Make the full path
     day_file_path = path.join(week_folder_path, day)
     file_exists = path.exists(day_file_path)
 
     # Open the file for appending
     with open(day_file_path, "a") as file:
         if not file_exists:
-            # Write a header if the file is newly created
+            # Write a header if the file is new
             file.write(
                 "# Magnetic field log file for {}/{}/{}, created at {}:{}:{}. Field values are in uT.\n".format(
                     now.strftime("%Y"),
                     now.strftime("%m"),
                     now.strftime("%d"),
                     now.strftime("%H"),
-                    now.strftime("M"),
-                    now.strftime("S"),
+                    now.strftime("%M"),
+                    now.strftime("%S"),
                 )
             )
         file.write(
@@ -88,7 +88,7 @@ def server_tick(event_a):
 
     while True:
 
-        sleep(1)  # Update every 1 second
+        sleep(1)  # Sets the sample rate to 1 second
         timestamps.append(datetime.now())
         event_a.set()
         print("tick", datetime.now().strftime("%H:%M:%S:%f"))
@@ -704,4 +704,4 @@ def start_log(n, user_path):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False, host="0.0.0.0")
+    app.run_server(debug=False)
