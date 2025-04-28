@@ -16,7 +16,7 @@
 #define DI PB0
 #define SS PB3
 #define TRIG PB4
-#define bitTime 100
+#define bitTime 100                 // used for timing the Serial output
 
 volatile uint16_t timerCount = 0;	// used for setting the ADC sample rate
 volatile uint8_t adcCode[4];		// 4 bytes to store the ADC value
