@@ -470,7 +470,7 @@ def update_graphs(
             "display": "grid",
             "gridTemplateRows": f"repeat({rows}, 1fr)",
             "gridTemplateColumns": f"repeat({cols}, 1fr)",
-            "grid-gap": "10px",
+            "grid-gap": "5px",
             "boxSizing": "border-box",
             "overflow": "hidden",  # Prevent scrollbars
             "margin": "auto",
@@ -481,7 +481,7 @@ def update_graphs(
             "display": "grid",
             "gridTemplateRows": f"repeat({rows}, auto)",
             "gridTemplateColumns": f"repeat({cols}, auto)",
-            "grid-gap": "10px",
+            "grid-gap": "5px",
             "boxSizing": "border-box",
             "overflow": "auto",  # Enable scrollbars
             "margin": "auto",
@@ -498,7 +498,7 @@ def update_graphs(
 
         # Dynamically calculate the size for each graph if "fit" mode is selected
         if layout_mode == "fit":
-            gap = 10  
+            gap = 5  
             padding = 60  
             available_width = f"calc(95vw - {gap * (cols - 1)}px)"
             available_height = (
