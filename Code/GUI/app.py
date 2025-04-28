@@ -9,15 +9,13 @@ from collections import deque
 from time import sleep
 from pandas import Series
 from threading import Thread, Event
-from sys import platform
 from os import makedirs, path
 
 ser = Serial(baudrate=115200, timeout=1)
-readings = [deque(maxlen=25) for _ in range(12)]
-timestamps = deque(maxlen=25)
+readings = [deque(maxlen=36000) for _ in range(12)]
+timestamps = deque(maxlen=36000)
 connected = False
 log_path = ""
-
 
 def write_data(base_path):
 
@@ -148,7 +146,7 @@ app = dash.Dash(
 app.layout = html.Div(
     [
         html.Div(
-            "Mattnetometer System",
+            "Magnetometer System",
             style={
                 "padding-left": "25px",
                 "border-bottom": "1px solid black",
@@ -472,24 +470,18 @@ def update_graphs(
             "display": "grid",
             "gridTemplateRows": f"repeat({rows}, 1fr)",
             "gridTemplateColumns": f"repeat({cols}, 1fr)",
-            # 'gap': '10px',
             "grid-gap": "10px",
-            "width": "100%",
-            "height": "100%",  # Adjust for header height
             "boxSizing": "border-box",
             "overflow": "hidden",  # Prevent scrollbars
             "margin": "auto",
         }
-        style = {"justify-content": "space-between", "display": "none"}
+        style = {"justify-content": "space-between", "display": "None"}
     else:  # Scrolling layout
         grid_style = {
             "display": "grid",
             "gridTemplateRows": f"repeat({rows}, auto)",
             "gridTemplateColumns": f"repeat({cols}, auto)",
-            # 'gap': '10px',
             "grid-gap": "10px",
-            "width": "100%",
-            "height": "100%",
             "boxSizing": "border-box",
             "overflow": "auto",  # Enable scrollbars
             "margin": "auto",
@@ -501,17 +493,16 @@ def update_graphs(
         }
 
     if selected_sensors is not None and event_connected.is_set():
-        # Ensure graphs are always displayed in numerical order
+
         sorted_series = sorted(selected_sensors, key=lambda x: int(x))
 
         # Dynamically calculate the size for each graph if "fit" mode is selected
         if layout_mode == "fit":
-            gap = 10  # Gap between grid items
-            padding = 60  # Total padding of the container (10px on each side)
-            # available_width = f"calc(100vw - {padding}px - {gap * (cols - 1)}px)"
+            gap = 10  
+            padding = 60  
             available_width = f"calc(95vw - {gap * (cols - 1)}px)"
             available_height = (
-                f"calc(100vh - 150px - {padding}px - {gap * (rows - 1)}px)"
+                f"calc(100vh - 175px - {padding}px - {gap * (rows - 1)}px)"
             )
             graph_width = f"calc({available_width} / {cols})"
             graph_height = f"calc({available_height} / {rows})"
@@ -566,7 +557,7 @@ def update_graphs(
                                 ],
                                 "layout": go.Layout(
                                     title={
-                                        "text": f"Sensor {sensor}",
+                                        "text": f"Sensor {sensor} = {readings[int(sensor) - 1][-1]:.5f} uT",
                                         "font": {
                                             "color": font_color,
                                             "family": "Share Tech Mono",
@@ -610,6 +601,9 @@ def update_graphs(
                     style={
                         "width": graph_width,
                         "height": graph_height,
+                        "display": "flex",
+                        "justify-self": "center",
+                        "align-self": "center"
                     },
                 )
             )
