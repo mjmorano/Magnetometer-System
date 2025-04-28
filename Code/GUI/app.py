@@ -583,6 +583,7 @@ def update_graphs(
                                         "tickfont": {"color": font_color},
                                     },
                                     yaxis={
+                                        "title": dict(text="B (uT)"),
                                         "showline": True,
                                         "linewidth": 2,
                                         "linecolor": font_color,
@@ -704,4 +705,4 @@ def start_log(n, user_path):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False)
+    app.run(debug=False)
