@@ -506,14 +506,17 @@ def update_graphs(
             )
             graph_width = f"calc({available_width} / {cols})"
             graph_height = f"calc({available_height} / {rows})"
+            justifySelf = "center"
+            alignSelf = "center"
 
         else:  # Use the slider value for graph size in "scroll" mode
             # graph_width = f"{graph_width_value}px"
             graph_width = f"{graph_width_value}vw"
             # graph_height = f"{graph_height_value}px"
             graph_height = f"{graph_height_value}vh"
-            sliderOff = False
             style = {"justify-content": "space-between", "display": "flex"}
+            justifySelf = "left"
+            alignSelf = "start"
 
         # grid_color = "#2f4f4f"
         if plot_style == "light":
@@ -602,8 +605,8 @@ def update_graphs(
                         "width": graph_width,
                         "height": graph_height,
                         "display": "flex",
-                        "justify-self": "center",
-                        "align-self": "center"
+                        "justify-self": justifySelf,
+                        "align-self": alignSelf
                     },
                 )
             )
