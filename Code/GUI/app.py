@@ -86,7 +86,7 @@ def server_tick(event_a):
 
     while True:
 
-        sleep(1)  # Sets the sample rate to 1 second
+        sleep(0.5)  # Sets the sample rate to 1 second
         timestamps.append(datetime.now())
         event_a.set()
         print("tick", datetime.now().strftime("%H:%M:%S:%f"))
@@ -427,7 +427,7 @@ app.layout = html.Div(
         ),
         dcc.Interval(
             id="interval-component",
-            interval=1000,  # Update every 1 second
+            interval=500,  # Update every 1 second
             n_intervals=0,
         ),
         dcc.Interval(
@@ -577,7 +577,7 @@ def update_graphs(
                                         "tickfont": {"color": font_color},
                                     },
                                     yaxis={
-                                        "title": dict(text="B (uT)"),
+                                        "title": dict(text="B (uT)", font={"color":font_color} ),
                                         "showline": True,
                                         "linewidth": 2,
                                         "linecolor": font_color,
